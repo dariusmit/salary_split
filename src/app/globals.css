@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8f9fb;
+  --foreground: #1a1a2e;
+  --muted: #7c7c8a;
+  --accent: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-subtle: #6366f110;
+  --border: #e5e7eb;
+  --card: #ffffff;
+  --surface: #f1f3f9;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-surface: var(--surface);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0b0d17;
+    --foreground: #e8e8ed;
+    --muted: #9494a0;
+    --accent: #818cf8;
+    --accent-hover: #a5b4fc;
+    --accent-subtle: #818cf815;
+    --border: #1e2035;
+    --card: #12142a;
+    --surface: #0f1125;
+    --success: #34d399;
+    --warning: #fbbf24;
+    --danger: #f87171;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+::selection {
+  background: var(--accent);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.font-data {
+  font-family: var(--font-mono), monospace;
+  font-feature-settings: "tnum";
+  letter-spacing: -0.02em;
+}
