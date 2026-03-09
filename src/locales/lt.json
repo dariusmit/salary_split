@@ -65,16 +65,5 @@
   "delete": "Ištrinti",
   "toggle_fixed": "Perjungti fiksuotą sumą",
   "fixed_tooltip": "Fiksuota suma — nesikeis keičiantis atlyginimui",
-  "percentage_tooltip": "Procentinis — keičiasi su atlyginimu",
-  "budget_insights": "Biudžeto įžvalgos",
-  "alert_count_single": "įspėjimas",
-  "alert_count_plural": "įspėjimai",
-  "alert_all_good": "Puiku! Jūsų išlaidos atitinka rekomenduojamas gaires. Taip ir toliau!",
-  "alert_housing_over": "Būstui skiriate {pct}% ({amount}) — stenkitės tilpti į {recommended} ({recommendedAmount}). Tai padės išvengti finansinio spaudimo ir atlaisvins pinigų taupymui.",
-  "alert_savings_under": "Taupote tik {pct}% ({amount}) — siekite bent {recommended} ({recommendedAmount}). 50/30/20 taisyklė rekomenduoja bent 20% skirti taupymui ir skolų grąžinimui.",
-  "alert_food_over": "Maistui skiriate {pct}% ({amount}) — stenkitės tilpti į {recommended} ({recommendedAmount}). Dažnesnis gaminimas namuose gali padėti.",
-  "alert_transport_over": "Transportas sudaro {pct}% ({amount}) — viršija rekomenduojamą {recommended} ({recommendedAmount}). Apsvarstykite viešąjį transportą ar kelionių optimizavimą.",
-  "alert_utilities_over": "Komunalinės paslaugos sudaro {pct}% ({amount}) — viršija tipinį {recommended} diapazoną ({recommendedAmount}). Peržiūrėkite prenumeratas ir energijos naudojimą.",
-  "alert_entertainment_over": "Pramogos sudaro {pct}% ({amount}) — siekite {recommended} ({recommendedAmount}). Įsitikinkite, kad būtinybės ir santaupos padengtos pirmiausia.",
-  "alert_disclaimer": "Remiantis 50/30/20 taisykle. Tai bendros gairės, o ne finansinė konsultacija — idealus paskirstymas priklauso nuo jūsų asmeninės situacijos."
+  "percentage_tooltip": "Procentinis — keičiasi su atlyginimu"
 }

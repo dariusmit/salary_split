@@ -6,7 +6,6 @@ import { SalaryInput } from "@/components/salary-input";
 import { CategoryManager } from "@/components/category-manager";
 import { SplitVisualization } from "@/components/split-visualization";
 import { FinancialGuidelines } from "@/components/financial-guidelines";
-import { BudgetAlerts } from "@/components/budget-alerts";
 import { useLanguage, type Locale } from "@/components/language-provider";
 import { useTranslations } from "next-intl";
 
@@ -131,10 +130,6 @@ export default function Home() {
                     {t("your_split")}
                   </h2>
                   <SplitVisualization salary={salary} categories={categories} />
-                </div>
-
-                <div className="p-4 sm:p-6 bg-card border border-border rounded-2xl">
-                  <BudgetAlerts salary={salary} categories={categories} />
                 </div>
               </div>
             </div>

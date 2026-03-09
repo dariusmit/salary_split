@@ -65,16 +65,5 @@
   "delete": "Delete",
   "toggle_fixed": "Toggle fixed amount",
   "fixed_tooltip": "Fixed amount — won\u2019t change when salary changes",
-  "percentage_tooltip": "Percentage-based — scales with your salary",
-  "budget_insights": "Budget Insights",
-  "alert_count_single": "alert",
-  "alert_count_plural": "alerts",
-  "alert_all_good": "Looking good! Your spending is within recommended guidelines. Keep it up!",
-  "alert_housing_over": "You're spending {pct}% ({amount}) on housing — try to keep it within {recommended} ({recommendedAmount}). This prevents being \"house poor\" and frees cash for savings.",
-  "alert_savings_under": "You're only saving {pct}% ({amount}) — aim for at least {recommended} ({recommendedAmount}). The 50/30/20 rule suggests at least 20% toward savings and debt repayment.",
-  "alert_food_over": "Food is at {pct}% ({amount}) — try to keep it within {recommended} ({recommendedAmount}). Cooking at home more often can help bring this down.",
-  "alert_transport_over": "Transport at {pct}% ({amount}) exceeds the recommended {recommended} ({recommendedAmount}). Consider carpooling, public transit, or optimizing routes.",
-  "alert_utilities_over": "Utilities at {pct}% ({amount}) are above the typical {recommended} range ({recommendedAmount}). Review subscriptions and energy usage for potential savings.",
-  "alert_entertainment_over": "Entertainment is at {pct}% ({amount}) — aim for {recommended} ({recommendedAmount}). Make sure essentials and savings are covered first.",
-  "alert_disclaimer": "Based on the 50/30/20 rule. These are general guidelines, not financial advice — your ideal split depends on your personal situation."
+  "percentage_tooltip": "Percentage-based — scales with your salary"
 }
