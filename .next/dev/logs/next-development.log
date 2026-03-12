@@ -1,5 +1,0 @@
-[00:00:01.416] Server  LOG     ✓ Ready in 1254ms
-[00:00:09.020] Server  ERROR   Error: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
-[00:00:41.308] Server  LOG     ✓ Compiled in 43ms
-[00:01:08.168] Server  ERROR   Error: ENVIRONMENT_FALLBACK: There is no `timeZone` configured, this can lead to markup mismatches caused by environment differences. Consider adding a global default: https://next-intl.dev/docs/configuration#time-zone
-[00:01:28.069] Server  LOG     ✓ Compiled in 37ms

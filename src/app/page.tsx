@@ -30,7 +30,7 @@ export default function Home() {
   const t = useTranslations();
   const [activeTab, setActiveTab] = useState(0);
   const [salary, setSalary] = useState<number[]>([1800, 2300, 5000]);
-  const [categories, setCategories] = useState<Category[]>(
+  const [categories, setCategories] = useState<Category[][]>(
     [...Array(TAB_COUNT)].map(() => DEFAULT_CATEGORIES),
   );
   const [hydrated, setHydrated] = useState(false);
