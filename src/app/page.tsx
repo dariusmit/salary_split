@@ -9,24 +9,45 @@ import { FinancialGuidelines } from "@/components/financial-guidelines";
 import { useLanguage, type Locale } from "@/components/language-provider";
 import { useTranslations } from "next-intl";
 
-const SALARY_KEY = "salary-splitter-salary";
-const CATEGORIES_KEY = "salary-splitter-categories";
+const TAB_COUNT = 3;
+const TAB_KEYS = [
+  {
+    salary: "salary-splitter-salary-1",
+    categories: "salary-splitter-categories-1",
+  },
+  {
+    salary: "salary-splitter-salary-2",
+    categories: "salary-splitter-categories-2",
+  },
+  {
+    salary: "salary-splitter-salary-3",
+    categories: "salary-splitter-categories-3",
+  },
+];
 
 export default function Home() {
   const { locale, setLocale } = useLanguage();
   const t = useTranslations();
-  const [salary, setSalary] = useState<number>(0);
-  const [categories, setCategories] = useState<Category[]>(DEFAULT_CATEGORIES);
+  const [activeTab, setActiveTab] = useState(0);
+  const [salary, setSalary] = useState<number[]>([1800, 2300, 5000]);
+  const [categories, setCategories] = useState<Category[]>(
+    [...Array(TAB_COUNT)].map(() => DEFAULT_CATEGORIES),
+  );
   const [hydrated, setHydrated] = useState(false);
 
   // Hydrate from localStorage after mount (avoids SSR mismatch)
   useEffect(() => {
     try {
-      const savedSalary = localStorage.getItem(SALARY_KEY);
-      if (savedSalary) setSalary(JSON.parse(savedSalary));
-
-      const savedCategories = localStorage.getItem(CATEGORIES_KEY);
-      if (savedCategories) setCategories(JSON.parse(savedCategories));
+      const loadedSalaries = [];
+      const loadedCategories = [];
+      for (let i = 0; i < TAB_COUNT; i++) {
+        const s = localStorage.getItem(TAB_KEYS[i].salary);
+        loadedSalaries.push(s ? JSON.parse(s) : [1800, 2300, 5000][i]);
+        const c = localStorage.getItem(TAB_KEYS[i].categories);
+        loadedCategories.push(c ? JSON.parse(c) : DEFAULT_CATEGORIES);
+      }
+      setSalary(loadedSalaries);
+      setCategories(loadedCategories);
     } catch {
       // ignore corrupted data
     }
@@ -35,17 +56,38 @@ export default function Home() {
 
   // Persist to localStorage after hydration
   useEffect(() => {
-    if (hydrated) localStorage.setItem(SALARY_KEY, JSON.stringify(salary));
-  }, [salary, hydrated]);
+    if (hydrated) {
+      for (let i = 0; i < TAB_COUNT; i++) {
+        localStorage.setItem(TAB_KEYS[i].salary, JSON.stringify(salary[i]));
+        localStorage.setItem(
+          TAB_KEYS[i].categories,
+          JSON.stringify(categories[i]),
+        );
+      }
+    }
+  }, [salary, categories, hydrated]);
 
-  useEffect(() => {
-    if (hydrated)
-      localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
-  }, [categories, hydrated]);
+  const handleSalaryChange = useCallback(
+    (val: number) => {
+      setSalary((prev) => {
+        const next = [...prev];
+        next[activeTab] = val;
+        return next;
+      });
+    },
+    [activeTab],
+  );
 
-  const handleCategoriesChange = useCallback((cats: Category[]) => {
-    setCategories(cats);
-  }, []);
+  const handleCategoriesChange = useCallback(
+    (cats: Category[]) => {
+      setCategories((prev) => {
+        const next = [...prev];
+        next[activeTab] = cats;
+        return next;
+      });
+    },
+    [activeTab],
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -96,6 +138,25 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Tabs */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-6">
+        <div className="flex gap-2 mb-6">
+          {[0, 1, 2].map((i) => (
+            <button
+              key={i}
+              onClick={() => setActiveTab(i)}
+              className={`px-4 py-2 rounded-lg font-medium border transition-colors ${
+                activeTab === i
+                  ? "bg-accent text-white border-accent"
+                  : "bg-card text-muted border-border hover:text-foreground"
+              }`}
+            >
+              {`Salary ${i + 1}`}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Main */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8 w-full">
         {!hydrated ? (
@@ -109,15 +170,15 @@ export default function Home() {
               <div className="space-y-6">
                 <div className="p-4 sm:p-6 bg-card border border-border rounded-2xl">
                   <SalaryInput
-                    onSalaryChange={setSalary}
-                    currentSalary={salary}
+                    onSalaryChange={handleSalaryChange}
+                    currentSalary={salary[activeTab]}
                   />
                 </div>
 
                 <div className="p-4 sm:p-6 bg-card border border-border rounded-2xl">
                   <CategoryManager
-                    categories={categories}
-                    salary={salary}
+                    categories={categories[activeTab]}
+                    salary={salary[activeTab]}
                     onCategoriesChange={handleCategoriesChange}
                   />
                 </div>
@@ -129,7 +190,10 @@ export default function Home() {
                   <h2 className="text-sm font-medium text-muted mb-4">
                     {t("your_split")}
                   </h2>
-                  <SplitVisualization salary={salary} categories={categories} />
+                  <SplitVisualization
+                    salary={salary[activeTab]}
+                    categories={categories[activeTab]}
+                  />
                 </div>
               </div>
             </div>

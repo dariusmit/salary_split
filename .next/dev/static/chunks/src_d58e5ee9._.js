@@ -1912,23 +1912,55 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
-const SALARY_KEY = "salary-splitter-salary";
-const CATEGORIES_KEY = "salary-splitter-categories";
+const TAB_COUNT = 3;
+const TAB_KEYS = [
+    {
+        salary: "salary-splitter-salary-1",
+        categories: "salary-splitter-categories-1"
+    },
+    {
+        salary: "salary-splitter-salary-2",
+        categories: "salary-splitter-categories-2"
+    },
+    {
+        salary: "salary-splitter-salary-3",
+        categories: "salary-splitter-categories-3"
+    }
+];
 function Home() {
     _s();
     const { locale, setLocale } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$language$2d$provider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useLanguage"])();
     const t = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTranslations"])();
-    const [salary, setSalary] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
-    const [categories, setCategories] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$categories$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_CATEGORIES"]);
+    const [activeTab, setActiveTab] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    const [salary, setSalary] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
+        1800,
+        2300,
+        5000
+    ]);
+    const [categories, setCategories] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([
+        ...Array(TAB_COUNT)
+    ].map({
+        "Home.useState": ()=>__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$categories$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_CATEGORIES"]
+    }["Home.useState"]));
     const [hydrated, setHydrated] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     // Hydrate from localStorage after mount (avoids SSR mismatch)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Home.useEffect": ()=>{
             try {
-                const savedSalary = localStorage.getItem(SALARY_KEY);
-                if (savedSalary) setSalary(JSON.parse(savedSalary));
-                const savedCategories = localStorage.getItem(CATEGORIES_KEY);
-                if (savedCategories) setCategories(JSON.parse(savedCategories));
+                const loadedSalaries = [];
+                const loadedCategories = [];
+                for(let i = 0; i < TAB_COUNT; i++){
+                    const s = localStorage.getItem(TAB_KEYS[i].salary);
+                    loadedSalaries.push(s ? JSON.parse(s) : [
+                        1800,
+                        2300,
+                        5000
+                    ][i]);
+                    const c = localStorage.getItem(TAB_KEYS[i].categories);
+                    loadedCategories.push(c ? JSON.parse(c) : __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$categories$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DEFAULT_CATEGORIES"]);
+                }
+                setSalary(loadedSalaries);
+                setCategories(loadedCategories);
             } catch  {
             // ignore corrupted data
             }
@@ -1938,25 +1970,48 @@ function Home() {
     // Persist to localStorage after hydration
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "Home.useEffect": ()=>{
-            if (hydrated) localStorage.setItem(SALARY_KEY, JSON.stringify(salary));
+            if (hydrated) {
+                for(let i = 0; i < TAB_COUNT; i++){
+                    localStorage.setItem(TAB_KEYS[i].salary, JSON.stringify(salary[i]));
+                    localStorage.setItem(TAB_KEYS[i].categories, JSON.stringify(categories[i]));
+                }
+            }
         }
     }["Home.useEffect"], [
         salary,
-        hydrated
-    ]);
-    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
-        "Home.useEffect": ()=>{
-            if (hydrated) localStorage.setItem(CATEGORIES_KEY, JSON.stringify(categories));
-        }
-    }["Home.useEffect"], [
         categories,
         hydrated
     ]);
+    const handleSalaryChange = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
+        "Home.useCallback[handleSalaryChange]": (val)=>{
+            setSalary({
+                "Home.useCallback[handleSalaryChange]": (prev)=>{
+                    const next = [
+                        ...prev
+                    ];
+                    next[activeTab] = val;
+                    return next;
+                }
+            }["Home.useCallback[handleSalaryChange]"]);
+        }
+    }["Home.useCallback[handleSalaryChange]"], [
+        activeTab
+    ]);
     const handleCategoriesChange = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useCallback"])({
         "Home.useCallback[handleCategoriesChange]": (cats)=>{
-            setCategories(cats);
+            setCategories({
+                "Home.useCallback[handleCategoriesChange]": (prev)=>{
+                    const next = [
+                        ...prev
+                    ];
+                    next[activeTab] = cats;
+                    return next;
+                }
+            }["Home.useCallback[handleCategoriesChange]"]);
         }
-    }["Home.useCallback[handleCategoriesChange]"], []);
+    }["Home.useCallback[handleCategoriesChange]"], [
+        activeTab
+    ]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen flex flex-col",
         children: [
@@ -1983,17 +2038,17 @@ function Home() {
                                             strokeLinecap: "round"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 64,
+                                            lineNumber: 106,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 57,
+                                        lineNumber: 99,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 56,
+                                    lineNumber: 98,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2003,7 +2058,7 @@ function Home() {
                                             children: t("app_name")
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 73,
+                                            lineNumber: 115,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -2011,19 +2066,19 @@ function Home() {
                                             children: t("tagline")
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 76,
+                                            lineNumber: 118,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 72,
+                                    lineNumber: 114,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 55,
+                            lineNumber: 97,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2039,28 +2094,55 @@ function Home() {
                                         children: l === "en" ? "EN" : "LT"
                                     }, l, false, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 82,
+                                        lineNumber: 124,
                                         columnNumber: 17
                                     }, this))
                             }, void 0, false, {
                                 fileName: "[project]/src/app/page.tsx",
-                                lineNumber: 80,
+                                lineNumber: 122,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 79,
+                            lineNumber: 121,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 54,
+                    lineNumber: 96,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 53,
+                lineNumber: 95,
+                columnNumber: 7
+            }, this),
+            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "max-w-7xl mx-auto px-4 sm:px-6 pt-6",
+                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                    className: "flex gap-2 mb-6",
+                    children: [
+                        0,
+                        1,
+                        2
+                    ].map((i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                            onClick: ()=>setActiveTab(i),
+                            className: `px-4 py-2 rounded-lg font-medium border transition-colors ${activeTab === i ? "bg-accent text-white border-accent" : "bg-card text-muted border-border hover:text-foreground"}`,
+                            children: `Salary ${i + 1}`
+                        }, i, false, {
+                            fileName: "[project]/src/app/page.tsx",
+                            lineNumber: 145,
+                            columnNumber: 13
+                        }, this))
+                }, void 0, false, {
+                    fileName: "[project]/src/app/page.tsx",
+                    lineNumber: 143,
+                    columnNumber: 9
+                }, this)
+            }, void 0, false, {
+                fileName: "[project]/src/app/page.tsx",
+                lineNumber: 142,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("main", {
@@ -2071,12 +2153,12 @@ function Home() {
                         className: "w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"
                     }, void 0, false, {
                         fileName: "[project]/src/app/page.tsx",
-                        lineNumber: 103,
+                        lineNumber: 164,
                         columnNumber: 13
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/app/page.tsx",
-                    lineNumber: 102,
+                    lineNumber: 163,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                     children: [
@@ -2089,38 +2171,38 @@ function Home() {
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "p-4 sm:p-6 bg-card border border-border rounded-2xl",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$salary$2d$input$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SalaryInput"], {
-                                                onSalaryChange: setSalary,
-                                                currentSalary: salary
+                                                onSalaryChange: handleSalaryChange,
+                                                currentSalary: salary[activeTab]
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 111,
+                                                lineNumber: 172,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 110,
+                                            lineNumber: 171,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                             className: "p-4 sm:p-6 bg-card border border-border rounded-2xl",
                                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$category$2d$manager$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CategoryManager"], {
-                                                categories: categories,
-                                                salary: salary,
+                                                categories: categories[activeTab],
+                                                salary: salary[activeTab],
                                                 onCategoriesChange: handleCategoriesChange
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 118,
+                                                lineNumber: 179,
                                                 columnNumber: 19
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 178,
                                             columnNumber: 17
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 109,
+                                    lineNumber: 170,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -2133,54 +2215,54 @@ function Home() {
                                                 children: t("your_split")
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 129,
+                                                lineNumber: 190,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$split$2d$visualization$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SplitVisualization"], {
-                                                salary: salary,
-                                                categories: categories
+                                                salary: salary[activeTab],
+                                                categories: categories[activeTab]
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/page.tsx",
-                                                lineNumber: 132,
+                                                lineNumber: 193,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/page.tsx",
-                                        lineNumber: 128,
+                                        lineNumber: 189,
                                         columnNumber: 17
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
-                                    lineNumber: 127,
+                                    lineNumber: 188,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 107,
+                            lineNumber: 168,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$financial$2d$guidelines$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FinancialGuidelines"], {}, void 0, false, {
                             fileName: "[project]/src/app/page.tsx",
-                            lineNumber: 137,
+                            lineNumber: 201,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true)
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
-                lineNumber: 100,
+                lineNumber: 161,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/page.tsx",
-        lineNumber: 51,
+        lineNumber: 93,
         columnNumber: 5
     }, this);
 }
-_s(Home, "mr9cromQBSHIiNvJAhtNnKEsC8E=", false, function() {
+_s(Home, "kVqmJRv9oe75MxGgXjEQ1C5VPBU=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$language$2d$provider$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useLanguage"],
         __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2d$intl$2f$dist$2f$esm$2f$development$2f$react$2d$client$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useTranslations"]
