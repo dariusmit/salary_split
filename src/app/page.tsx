@@ -2,6 +2,11 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { Category, DEFAULT_CATEGORIES } from "@/data/categories";
+
+// Deep clone utility for categories
+function cloneCategories(categories: Category[]): Category[] {
+  return categories.map((cat) => ({ ...cat }));
+}
 import { SalaryInput } from "@/components/salary-input";
 import { CategoryManager } from "@/components/category-manager";
 import { SplitVisualization } from "@/components/split-visualization";
@@ -31,7 +36,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState(0);
   const [salary, setSalary] = useState<number[]>([1800, 2300, 5000]);
   const [categories, setCategories] = useState<Category[][]>(
-    [...Array(TAB_COUNT)].map(() => DEFAULT_CATEGORIES),
+    [...Array(TAB_COUNT)].map(() => cloneCategories(DEFAULT_CATEGORIES)),
   );
   const [hydrated, setHydrated] = useState(false);
 
@@ -44,7 +49,12 @@ export default function Home() {
         const s = localStorage.getItem(TAB_KEYS[i].salary);
         loadedSalaries.push(s ? JSON.parse(s) : [1800, 2300, 5000][i]);
         const c = localStorage.getItem(TAB_KEYS[i].categories);
-        loadedCategories.push(c ? JSON.parse(c) : DEFAULT_CATEGORIES);
+        if (c) {
+          // Deep clone loaded categories to avoid shared references
+          loadedCategories.push(cloneCategories(JSON.parse(c)));
+        } else {
+          loadedCategories.push(cloneCategories(DEFAULT_CATEGORIES));
+        }
       }
       setSalary(loadedSalaries);
       setCategories(loadedCategories);
